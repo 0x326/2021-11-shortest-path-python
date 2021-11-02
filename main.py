@@ -301,64 +301,57 @@ class Graph:
             yield next_vertex_id
 
 
-def _main():
-    """
-    Set up facts in project description
-    """
+graph = Graph()
+vertices = (
+    'CAN',
+    'USA',
+    'MEX',
+    'BLZ',
+    'GTM',
+    'SLV',
+    'HND',
+    'NIC',
+    'CRI',
+    'PAN',
+)
+for vertex in vertices:
+    graph.add_vertex(vertex)
 
-    graph = Graph()
-    vertices = (
-        'CAN',
-        'USA',
-        'MEX',
-        'BLZ',
-        'GTM',
-        'SLV',
-        'HND',
-        'NIC',
-        'CRI',
-        'PAN',
-    )
-    for vertex in vertices:
-        graph.add_vertex(vertex)
+edges = (
+    # Canada borders the United States
+    ('CAN', 'USA'),
 
-    edges = (
-        # Canada borders the United States
-        ('CAN', 'USA'),
+    # The United States borders Canada and Mexico
+    ('USA', 'MEX'),
 
-        # The United States borders Canada and Mexico
-        ('USA', 'MEX'),
+    # Mexico borders the United States, Guatemala, and Belize
+    ('MEX', 'BLZ'),
+    ('MEX', 'GTM'),
 
-        # Mexico borders the United States, Guatemala, and Belize
-        ('MEX', 'BLZ'),
-        ('MEX', 'GTM'),
+    # Belize borders Mexico and Guatemala
+    ('BLZ', 'GTM'),
 
-        # Belize borders Mexico and Guatemala
-        ('BLZ', 'GTM'),
+    # Guatemala borders Mexico, Belize, El Salvador, and Honduras
+    ('GTM', 'SLV'),
+    ('GTM', 'HND'),
 
-        # Guatemala borders Mexico, Belize, El Salvador, and Honduras
-        ('GTM', 'SLV'),
-        ('GTM', 'HND'),
+    # El Salvador borders Guatemala and Honduras
+    ('SLV', 'HND'),
 
-        # El Salvador borders Guatemala and Honduras
-        ('SLV', 'HND'),
+    # Honduras borders Guatemala, El Salvador, and Nicaragua
+    ('HND', 'NIC'),
 
-        # Honduras borders Guatemala, El Salvador, and Nicaragua
-        ('HND', 'NIC'),
+    # Nicaragua borders Honduras and Costa Rica
+    ('NIC', 'CRI'),
 
-        # Nicaragua borders Honduras and Costa Rica
-        ('NIC', 'CRI'),
-
-        # Costa Rica borders Nicaragua and Panama
-        ('CRI', 'PAN'),
-    )
-    for from_vertex_id, to_vertex_id in edges:
-        graph.add_edge(Edge(from_vertex_id=from_vertex_id, to_vertex_id=to_vertex_id, cost=1))
-        # Edges are reciprocal
-        graph.add_edge(Edge(from_vertex_id=to_vertex_id, to_vertex_id=from_vertex_id, cost=1))
-
-    print(list(reversed(list(graph.shortest_path('USA', 'PAN')))))
+    # Costa Rica borders Nicaragua and Panama
+    ('CRI', 'PAN'),
+)
+for from_vertex_id, to_vertex_id in edges:
+    graph.add_edge(Edge(from_vertex_id=from_vertex_id, to_vertex_id=to_vertex_id, cost=1))
+    # Edges are reciprocal
+    graph.add_edge(Edge(from_vertex_id=to_vertex_id, to_vertex_id=from_vertex_id, cost=1))
 
 
-if __name__ == '__main__':
-    _main()
+def lambda_handler(event, context):
+    pass
