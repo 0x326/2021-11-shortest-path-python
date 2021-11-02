@@ -1,3 +1,4 @@
+import json
 from dataclasses import dataclass
 from math import inf
 from typing import *
@@ -354,4 +355,17 @@ for from_vertex_id, to_vertex_id in edges:
 
 
 def lambda_handler(event, context):
-    pass
+    """
+    Expects valid input. Does not perform input validation.
+    """
+    to_vertex_id = event['pathParameters']['to_vertex_id'].lstrip('/')
+    reverse_path = graph.shortest_path(source_vertex_id='USA', to_vertex_id=to_vertex_id)
+    path = tuple(reversed(tuple(reverse_path)))
+
+    return {
+        'statusCode': 200,
+        'headers': {
+            'Content-Type': 'application/json',
+        },
+        'body': json.dumps(path),
+    }
